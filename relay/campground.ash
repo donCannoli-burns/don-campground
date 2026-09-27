@@ -143,9 +143,9 @@ void main() {
     //   bottom -> garden + workshed controls in otherwise-unused pane space
     if (action == "") {
         buffer familiar_page = visit_url("familiar.php");
-        buffer familiar = dc_quick_familiar_panel(familiar_page);
-        if (length(familiar) > 0)
-            dc_insert_after_body(results, familiar);
+        buffer familiar_panel = dc_quick_familiar_panel(familiar_page);
+        if (length(familiar_panel) > 0)
+            dc_insert_after_body(results, familiar_panel);
 
         buffer bottom_controls;
         buffer garden = dc_garden_panel(garden_notice);
