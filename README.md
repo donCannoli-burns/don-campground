@@ -33,6 +33,7 @@ git delete don-campground
 - Adds a Model Train Set Choice-Override handler for choice **1485**.
 - Adds `campground.workshed.11045.ash` for Model Train Set status enhancement; the replacement selector remains on `campground.php`.
 - Preserves the old telescope annotations, bookshelf summon counters, Trendy cleanup, garden switcher, and DNA hybrid annotations.
+- Adds a quick familiar selector to `familiar.php`, built from KoL's currently-selectable terrarium rows and submitted through the native `action=newfam` form.
 - Modernizes the garden switcher to use item installation rather than the old `remodel=` URL.
 
 ## Files
@@ -44,6 +45,7 @@ Copy the contents of `relay/` into KoLmafia's `relay/` directory:
 - `campground.workshed.11045.ash`
 - `choice.1485.js`
 - `don-campground-common.ash`
+- `familiar.ash`
 
 `src/choice.1485.ts` is optional maintainable TypeScript source. KoLmafia runs the checked-in JavaScript file directly.
 
@@ -72,6 +74,7 @@ Then test read-first in Relay:
 4. Do **not** submit a workshed replacement until you intend to consume the one-per-day replacement.
 5. Open a Model Train Set workshed and confirm the train page remains functional and only the train-status enhancement appears.
 6. Open/refresh choice 1485 directly and confirm `choice.1485.js` does not duplicate or break the native train controls.
+7. Open `familiar.php`, confirm the Quick familiar dropdown appears, and switch once to a familiar already shown as selectable by the native terrarium page.
 
 ## Important behavior
 
