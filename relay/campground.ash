@@ -138,15 +138,22 @@ void main() {
     if (action == "bookshelf") dc_bookshelf(results);
     results = dc_trendy(results);
 
-    // The legacy UX exposed both selectors from the campsite itself.
-    // Keep workshed pages focused on the installed appliance.
+    // Campground layout:
+    //   top    -> quick familiar
+    //   bottom -> garden + workshed controls in otherwise-unused pane space
     if (action == "") {
-        buffer controls;
+        buffer familiar_page = visit_url("familiar.php");
+        buffer familiar = dc_quick_familiar_panel(familiar_page);
+        if (length(familiar) > 0)
+            dc_insert_after_body(results, familiar);
+
+        buffer bottom_controls;
         buffer garden = dc_garden_panel(garden_notice);
         buffer workshed = dc_workshed_panel(workshed_notice);
-        if (length(garden) > 0) controls.append(garden);
-        if (length(workshed) > 0) controls.append(workshed);
-        if (length(controls) > 0) dc_insert_after_body(results, controls);
+        if (length(garden) > 0) bottom_controls.append(garden);
+        if (length(workshed) > 0) bottom_controls.append(workshed);
+        if (length(bottom_controls) > 0)
+            dc_insert_before_body_end(results, bottom_controls);
     }
 
     write(results);
