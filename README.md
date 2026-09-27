@@ -1,6 +1,6 @@
 # don-campground modern relay bundle
 
-Modernization of the supplied legacy `don-campground.ash` without changing its basic purpose.
+Modernization of Bale's `campground.ash` without changing its basic purpose.
 
 ## Install in KoLmafia
 
