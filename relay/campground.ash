@@ -124,12 +124,13 @@ void main() {
         return;
     }
 
+    string familiar_notice = dc_process_familiar_switch();
     string garden_notice = dc_process_garden_install();
     string workshed_notice = dc_process_workshed_install();
 
     // After one of our local forms mutates state, fetch a clean canonical
     // campground page rather than forwarding private form fields to KoL.
-    buffer results = (garden_notice != "" || workshed_notice != "")
+    buffer results = (familiar_notice != "" || garden_notice != "" || workshed_notice != "")
         ? visit_url("campground.php")
         : visit_url();
     string action = form_field("action");
@@ -142,8 +143,10 @@ void main() {
     //   top    -> quick familiar
     //   bottom -> garden + workshed controls in otherwise-unused pane space
     if (action == "") {
+        // Read the terrarium server-side only to discover KoL's currently
+        // selectable familiars. The browser itself never leaves campground.php.
         buffer familiar_page = visit_url("familiar.php");
-        buffer familiar_panel = dc_quick_familiar_panel(familiar_page);
+        buffer familiar_panel = dc_quick_familiar_panel(familiar_page, familiar_notice);
         if (length(familiar_panel) > 0)
             dc_insert_after_body(results, familiar_panel);
 
