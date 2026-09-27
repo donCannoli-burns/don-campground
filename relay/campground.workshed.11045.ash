@@ -1,7 +1,7 @@
 // campground.workshed.11045.ash
 // Model Train Set-specific workshed override.
 // KoLmafia dispatches this before campground.workshed.ash, so this file
-// must provide both the workshed switcher and the train-specific status.
+// provides train-specific status only; the switcher lives on campground.php.
 import "relay/don-campground-common.ash";
 
 buffer dc_train_status_panel() {
@@ -28,22 +28,12 @@ buffer dc_train_status_panel() {
 }
 
 void main() {
-    string notice = dc_process_workshed_install();
-
-    buffer results;
-    if (notice == "")
-        results = visit_url();
-    else
-        results = visit_url("campground.php?action=workshed");
-
-    buffer panels;
-    panels.append(dc_workshed_panel(notice));
+    buffer results = visit_url();
 
     // The Model Train Set redirects the workshed request into choice 1485.
-    // Preserve the native choice UI and augment it rather than replacing it.
+    // Preserve the native train controls and add status only.
     if (results.contains_text("Save Train Set Configuration"))
-        panels.append(dc_train_status_panel());
+        dc_insert_after_body(results, dc_train_status_panel());
 
-    dc_insert_after_body(results, panels);
     write(results);
 }
