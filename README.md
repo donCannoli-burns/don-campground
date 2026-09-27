@@ -2,6 +2,8 @@
 
 Modernization of Bale's `campground.ash` without changing its basic purpose.
 
+[Bale's Relay Overrides forum thread](https://kolmafia.us/threads/bales-relay-overrides.12644/)
+
 ## Install in KoLmafia
 
 From the KoLmafia gCLI:
