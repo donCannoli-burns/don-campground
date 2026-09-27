@@ -27,11 +27,11 @@ git delete don-campground
 ## What changed
 
 - Keeps native KoLmafia relay overrides for `campground.php`; current KoLmafia still supports them.
-- Uses KoLmafia's current workshed-specific relay dispatch (`campground.workshed.<item-id>.ash|js`).
+- Uses KoLmafia's current workshed-specific relay dispatch (`campground.workshed.<item-id>.ash|js`) for appliance-page enhancements, while the workshed replacement selector stays on the main campground page.
 - Replaces the old undocumented `campground.php?action=workshed&remodel=...` + hand-built `inv_use.php` call with `get_workshed()` and `use(1, item)`.
 - Updates the workshed registry through current `CampgroundRequest` entries, including Cold Medicine Cabinet, Model Train Set, and TakerSpace letter of Marque.
 - Adds a Model Train Set Choice-Override handler for choice **1485**.
-- Adds `campground.workshed.11045.ash` so the Model Train Set path receives both the shared workshed switcher and the train-status enhancement.
+- Adds `campground.workshed.11045.ash` for Model Train Set status enhancement; the replacement selector remains on `campground.php`.
 - Preserves the old telescope annotations, bookshelf summon counters, Trendy cleanup, garden switcher, and DNA hybrid annotations.
 - Modernizes the garden switcher to use item installation rather than the old `remodel=` URL.
 
@@ -67,10 +67,11 @@ ashref use
 Then test read-first in Relay:
 
 1. Open the base campground and confirm telescope/garden UI still renders.
-2. Open a non-train workshed and confirm the switcher appears.
-3. Do **not** submit a workshed replacement until you intend to consume the one-per-day replacement.
-4. Open a Model Train Set workshed and confirm the train page remains functional and the status panel appears.
-5. Open/refresh choice 1485 directly and confirm `choice.1485.js` does not duplicate or break the native train controls.
+2. Confirm both the garden switcher and workshed switcher appear on the main campground page.
+3. Open a non-train workshed and confirm the workshed switcher is **not** injected there.
+4. Do **not** submit a workshed replacement until you intend to consume the one-per-day replacement.
+5. Open a Model Train Set workshed and confirm the train page remains functional and only the train-status enhancement appears.
+6. Open/refresh choice 1485 directly and confirm `choice.1485.js` does not duplicate or break the native train controls.
 
 ## Important behavior
 
