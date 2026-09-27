@@ -1,0 +1,2 @@
+# KoLmafia installs this dependency automatically when gitInstallDependencies is enabled.
+github Ezandora/Choice-Override
