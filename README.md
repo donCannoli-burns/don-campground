@@ -31,7 +31,7 @@ git delete don-campground
 - Replaces the old undocumented `campground.php?action=workshed&remodel=...` + hand-built `inv_use.php` call with `get_workshed()` and `use(1, item)`.
 - Updates the workshed registry through current `CampgroundRequest` entries, including Cold Medicine Cabinet, Model Train Set, and TakerSpace letter of Marque.
 - Adds a Model Train Set Choice-Override handler for choice **1485**.
-- Adds `campground.workshed.11045.js` so the workshed redirect path receives the same train enhancement instead of swallowing the choice handler.
+- Adds `campground.workshed.11045.ash` so the Model Train Set path receives both the shared workshed switcher and the train-status enhancement.
 - Preserves the old telescope annotations, bookshelf summon counters, Trendy cleanup, garden switcher, and DNA hybrid annotations.
 - Modernizes the garden switcher to use item installation rather than the old `remodel=` URL.
 
@@ -41,7 +41,7 @@ Copy the contents of `relay/` into KoLmafia's `relay/` directory:
 
 - `campground.ash`
 - `campground.workshed.ash`
-- `campground.workshed.11045.js`
+- `campground.workshed.11045.ash`
 - `choice.1485.js`
 - `don-campground-common.ash`
 
