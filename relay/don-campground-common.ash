@@ -125,7 +125,6 @@ buffer dc_workshed_panel(string notice) {
     }
 
     panel.append("<form method='post' action='campground.php' style='margin-top:8px' onsubmit=\"return confirm('Replace your current workshed item? KoL only allows one replacement per day.');\">");
-    panel.append("<input type='hidden' name='action' value='workshed'>");
     panel.append("<label for='doncamp_install'><b>Replace with:</b></label> ");
     panel.append("<select name='doncamp_install' id='doncamp_install'><option value=''>-- choose --</option>");
     panel.append(options);
