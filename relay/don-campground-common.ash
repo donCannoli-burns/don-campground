@@ -162,7 +162,7 @@ buffer dc_quick_familiar_panel(buffer familiar_page) {
     // Only rows with KoL's native newfam radio control are currently selectable.
     // Source order preserves KoL's favorite/non-favorite ordering.
     matcher rows = create_matcher(
-        "(?s)<tr class=[\\\"']frow [^\\\"']*[\\\"'][^>]*>.*?name=newfam value=[\\\"']?([0-9]+)[\\\"']?.*?<b>(.*?)</b>, the ([^<(]+?) \\\\(",
+        "(?s)<tr class=[\"']frow [^\"']*[\"'][^>]*>.*?name=newfam value=[\"']?([0-9]+)[\"']?.*?<b>(.*?)</b>, the ([^<(]+?) \\(",
         familiar_page
     );
 
@@ -190,7 +190,7 @@ buffer dc_quick_familiar_panel(buffer familiar_page) {
     panel.append("</b></div>");
     panel.append("<form name='doncamp_quickfam' method='post' action='familiar.php' style='margin:0'>");
     panel.append("<input type='hidden' name='action' value='newfam'>");
-    panel.append("<select name='newfam' onchange=\\\"if(this.value){this.form.submit();}\\\">");
+    panel.append("<select name='newfam' onchange=\"if(this.value){this.form.submit();}\">");
     panel.append("<option value='' selected>-- choose familiar --</option>");
     panel.append(options);
     panel.append("</select>");
