@@ -125,17 +125,28 @@ void main() {
     }
 
     string garden_notice = dc_process_garden_install();
-    buffer results = visit_url();
+    string workshed_notice = dc_process_workshed_install();
+
+    // After one of our local forms mutates state, fetch a clean canonical
+    // campground page rather than forwarding private form fields to KoL.
+    buffer results = (garden_notice != "" || workshed_notice != "")
+        ? visit_url("campground.php")
+        : visit_url();
     string action = form_field("action");
 
     dc_telescope(results);
     if (action == "bookshelf") dc_bookshelf(results);
     results = dc_trendy(results);
 
-    // Only put the garden switcher on the base campsite page.
+    // The legacy UX exposed both selectors from the campsite itself.
+    // Keep workshed pages focused on the installed appliance.
     if (action == "") {
+        buffer controls;
         buffer garden = dc_garden_panel(garden_notice);
-        if (length(garden) > 0) dc_insert_after_body(results, garden);
+        buffer workshed = dc_workshed_panel(workshed_notice);
+        if (length(garden) > 0) controls.append(garden);
+        if (length(workshed) > 0) controls.append(workshed);
+        if (length(controls) > 0) dc_insert_after_body(results, controls);
     }
 
     write(results);
