@@ -88,7 +88,7 @@ buffer dc_workshed_panel(string notice) {
     boolean [item] supported = dc_supported_workshed_items();
 
     buffer panel;
-    panel.append("<div id='don-campground-workshed-panel' style='max-width:760px;margin:10px auto;padding:10px 12px;border:1px solid #4169e1;background:#f7f8ff;font-family:Arial,sans-serif;font-size:13px'>");
+    panel.append("<div id='don-campground-workshed-panel' style='max-width:760px;margin:10px auto;padding:8px 12px;border:1px solid #6a8d39;background:#f7fff0;font-family:Arial,sans-serif;font-size:13px'>");
     panel.append("<div style='font-weight:bold;margin-bottom:6px'>Workshed switcher</div>");
 
     if (current == $item[none])
@@ -126,7 +126,7 @@ buffer dc_workshed_panel(string notice) {
 
     panel.append("<form method='post' action='campground.php' style='margin-top:8px' onsubmit=\"return confirm('Replace your current workshed item? KoL only allows one replacement per day.');\">");
     panel.append("<label for='doncamp_install'><b>Replace with:</b></label> ");
-    panel.append("<select name='doncamp_install' id='doncamp_install'><option value=''>-- choose --</option>");
+    panel.append("<select name='doncamp_install' id='doncamp_install' style='min-width:320px;padding:3px 6px'><option value=''>-- choose --</option>");
     panel.append(options);
     panel.append("</select> <input type='submit' value='Install'>");
     panel.append("</form></div>");
@@ -156,7 +156,29 @@ void dc_insert_before_body_end(buffer page, buffer fragment) {
     page.insert(body_end, fragment);
 }
 
-buffer dc_quick_familiar_panel(buffer familiar_page) {
+string dc_process_familiar_switch() {
+    string raw = form_field("doncamp_familiar");
+    if (raw == "") return "";
+
+    familiar target = to_familiar(raw.to_int());
+
+    if (target == $familiar[none])
+        return "Refused unknown familiar selection.";
+    if (!have_familiar(target))
+        return "That familiar is not currently available.";
+    if (target == my_familiar())
+        return target + " is already your active familiar.";
+
+    boolean ok = use_familiar(target);
+    if (ok && my_familiar() == target)
+        return "Switched to " + target + ".";
+    if (my_familiar() == target)
+        return "Switched to " + target + ".";
+
+    return "KoLmafia did not confirm the familiar switch; no success is being assumed.";
+}
+
+buffer dc_quick_familiar_panel(buffer familiar_page, string notice) {
     buffer options;
 
     // Only rows with KoL's native newfam radio control are currently selectable.
@@ -180,21 +202,24 @@ buffer dc_quick_familiar_panel(buffer familiar_page) {
         options.append("</option>");
     }
 
-    if (length(options) == 0) return "".to_buffer();
+    if (length(options) == 0 && notice == "") return "".to_buffer();
 
     buffer panel;
-    panel.append("<div id='don-campground-quick-familiar' style='max-width:760px;margin:10px auto;padding:9px 12px;border:1px solid #6b5aa6;background:#faf8ff;font-family:Arial,sans-serif;font-size:13px'>");
+    panel.append("<div id='don-campground-quick-familiar' style='max-width:760px;margin:10px auto;padding:8px 12px;border:1px solid #6a8d39;background:#f7fff0;font-family:Arial,sans-serif;font-size:13px'>");
     panel.append("<div style='font-weight:bold;margin-bottom:6px'>Quick familiar</div>");
     panel.append("<div style='margin-bottom:6px'>Current: <b>");
     panel.append(my_familiar().to_string().entity_encode());
     panel.append("</b></div>");
-    panel.append("<form name='doncamp_quickfam' method='post' action='familiar.php' style='margin:0'>");
-    panel.append("<input type='hidden' name='action' value='newfam'>");
-    panel.append("<select name='newfam' onchange=\"if(this.value){this.form.submit();}\">");
-    panel.append("<option value='' selected>-- choose familiar --</option>");
-    panel.append(options);
-    panel.append("</select>");
-    panel.append("</form>");
+    if (notice != "")
+        panel.append("<div style='margin-bottom:6px;color:#174a17'><b>" + notice.entity_encode() + "</b></div>");
+    if (length(options) > 0) {
+        panel.append("<form name='doncamp_quickfam' method='post' action='campground.php' style='margin:0'>");
+        panel.append("<select name='doncamp_familiar' style='min-width:320px;padding:3px 6px' onchange=\"if(this.value){this.form.submit();}\">");
+        panel.append("<option value='' selected>-- choose familiar --</option>");
+        panel.append(options);
+        panel.append("</select>");
+        panel.append("</form>");
+    }
     panel.append("</div>");
     return panel;
 }
